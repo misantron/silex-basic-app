@@ -1,6 +1,11 @@
 <?php
 return [
-    'providers' => [
-        'Silex\Provider\TwigServiceProvider'
+    'vendor.providers' => [
+        'Silex\Provider\ServiceControllerServiceProvider',
+        'Silex\Provider\TwigServiceProvider',
+        'Silex\Provider\DoctrineServiceProvider',
+    ],
+    'app.providers' => [
+        'App\Provider\AppControllerProvider',
     ]
 ];
