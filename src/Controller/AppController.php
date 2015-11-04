@@ -6,27 +6,18 @@ use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Twig_Environment;
 
-class AppController implements AppControllerInterface
+class AppController
 {
     /** @var Twig_Environment */
-    protected $twigEngine;
+    protected $twig;
 
-    public function __construct($twigEngine)
+    public function __construct($twig)
     {
-        $this->twigEngine = $twigEngine;
-    }
-
-    /**
-     * @param ControllerCollection $controllers
-     * @param string $controllerId
-     */
-    public static function connect($controllers, $controllerId)
-    {
-        $controllers->get('/', $controllerId . ":indexAction");
+        $this->twig = $twig;
     }
 
     public function indexAction(Request $request)
     {
-        $this->twigEngine->render('index', []);
+        $this->twig->render('index', []);
     }
 }

@@ -1,11 +1,18 @@
 <?php
 return [
-    'vendor.providers' => [
-        'Silex\Provider\ServiceControllerServiceProvider',
-        'Silex\Provider\TwigServiceProvider',
-        'Silex\Provider\DoctrineServiceProvider',
+    'debug' => false,
+    'intl.default_locale' => '',
+    'date.timezone' => '',
+    'db.options' => [
+
     ],
-    'app.providers' => [
-        'App\Provider\AppControllerProvider',
-    ]
+    'providers' => [
+        'vendor' => [
+            'Silex\Provider\ServiceControllerServiceProvider',
+            'Silex\Provider\TwigServiceProvider',
+        ],
+        'app' => [
+            'App\Provider\Controller\AppControllerProvider',
+        ],
+    ],
 ];

@@ -17,8 +17,8 @@ date_default_timezone_set($config['date.timezone']);
 $app = new Application();
 
 $providers = array_merge(
-    $config['vendor.providers'],
-    $config['app.providers']
+    $config['providers']['vendor'],
+    $config['providers']['app']
 );
 
 foreach($providers as $providerClassName){

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Provider;
+namespace App\Provider\Controller;
 
 use App\Controller\AppController;
 use Silex\Application;
@@ -15,14 +15,14 @@ class AppControllerProvider implements ServiceProviderInterface, ControllerProvi
         /** @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
 
-        AppController::connect($controllers, 'app.controller');
+        $controllers->get('/', 'App\Controller\AppController:indexAction');
 
         return $controllers;
     }
 
     public function register(Application $app)
     {
-        $app['base.controller'] = $app->share(function ($app) {
+        $app['app.controller'] = $app->share(function ($app) {
             return new AppController(
                 $app['twig']
             );

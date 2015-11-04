@@ -6,12 +6,13 @@ return [
     'db.options' => [
 
     ],
-    'vendor.providers' => [
-        'Silex\Provider\ServiceControllerServiceProvider',
-        'Silex\Provider\TwigServiceProvider',
-        'Silex\Provider\DoctrineServiceProvider',
+    'providers' => [
+        'vendor' => [
+            'Silex\Provider\ServiceControllerServiceProvider',
+            'Silex\Provider\TwigServiceProvider',
+        ],
+        'app' => [
+            'App\Provider\Controller\AppControllerProvider',
+        ],
     ],
-    'app.providers' => [
-        'App\Provider\AppControllerProvider',
-    ]
 ];
