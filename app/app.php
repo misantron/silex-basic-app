@@ -1,9 +1,5 @@
 <?php
 
-use Silex\Application;
-use Silex\ServiceProviderInterface;
-
-
 require __DIR__ . '/../vendor/autoload.php';
 
 $config = require __DIR__ . '/cache/config.php';
@@ -14,7 +10,7 @@ setlocale(LC_ALL, $config['intl.default_locale']);
 ini_set('date.timezone', $config['date.timezone']);
 date_default_timezone_set($config['date.timezone']);
 
-$app = new Application();
+$app = new \Silex\Application();
 
 $providers = array_merge(
     $config['providers']['vendor'],
@@ -22,7 +18,7 @@ $providers = array_merge(
 );
 
 foreach($providers as $providerClassName){
-    /** @var ServiceProviderInterface $provider */
+    /** @var \Silex\ServiceProviderInterface $provider */
     $provider = new $providerClassName;
     $app->register($provider, $config);
 }

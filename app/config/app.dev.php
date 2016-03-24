@@ -3,7 +3,10 @@ return [
     'debug' => true,
     'intl.default_locale' => '',
     'date.timezone' => '',
-    'db.options' => [
+    'db' => [
+
+    ],
+    'db.migrations' => [
 
     ],
     'providers' => [
