@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Command;
+namespace App\Console\Command;
 
-use Symfony\Component\Console\Command\Command;
+use App\Base\Console\BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConfigBuildCommand extends Command
+class ConfigBuildCommand extends BaseCommand
 {
     protected function configure()
     {
