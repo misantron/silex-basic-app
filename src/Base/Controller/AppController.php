@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Controller;
+namespace App\Base\Controller;
 
-use Silex\ControllerCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Twig_Environment;
 

@@ -10,14 +10,16 @@ return [
         'path' => __DIR__ . '/../app/migrations',
         'table_name' => 'migrations',
     ],
+    'console.name' => 'Application console',
+    'console.version' => '1.0.0',
     'providers' => [
         'vendor' => [
-            'Silex\\Provider\\ServiceControllerServiceProvider',
+            \Silex\Provider\ServiceControllerServiceProvider::class,
             'Silex\\Provider\\TwigServiceProvider',
         ],
         'app' => [
-            'App\\Provider\\Controller\\AppControllerProvider',
-            'App\\Provider\\Service\\MigrationServiceProvider',
+            \App\Provider\Controller\AppControllerProvider::class,
+            \App\Base\Provider\Service\ConsoleServiceProvider::class,
         ],
     ],
 ];
