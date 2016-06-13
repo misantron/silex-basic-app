@@ -2,39 +2,14 @@
 <?php
 
 set_time_limit(0);
-ini_set('display_errors', 1);
 
-$app = require_once __DIR__ . '../app/app.php';
+$app = require_once __DIR__ . '/../app/app.php';
 
-$configuration = new \Doctrine\DBAL\Migrations\Configuration\Configuration($app['db']);
-$configuration->setMigrationsNamespace($app['db.migrations.namespace']);
-if ($app['db.migrations.path']) {
-    $configuration->setMigrationsDirectory($app['db.migrations.path']);
-    $configuration->registerMigrationsFromDirectory($app['db.migrations.path']);
-}
-if ($app['db.migrations.name']) {
-    $configuration->setName($app['db.migrations.name']);
-}
-if ($app['db.migrations.table_name']) {
-    $configuration->setMigrationsTableName($app['db.migrations.table_name']);
-}
+$app->register(new \App\Base\Provider\Service\ConsoleServiceProvider(), [
+    'console.name' => 'Application console',
+    'console.version' => '1.0.0',
+]);
 
 /** @var \App\Base\Console\ConsoleApplication $console */
 $console = $app['console'];
-
-$commands = [
-    new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
-    new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
-    new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
-    new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
-    new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand(),
-];
-foreach ($commands as $command) {
-    $command->setMigrationConfiguration($configuration);
-    $console->add($command);
-}
-
-$console->addCommands([
-    new \App\Console\Command\ConfigBuildCommand(),
-]);
 $console->run();

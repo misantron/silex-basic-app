@@ -3,6 +3,8 @@
 namespace App\Base\Provider\Service;
 
 use App\Base\Console\ConsoleApplication;
+use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\DBAL\Migrations\Tools\Console\Command;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Application;
@@ -11,21 +13,47 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 
 class ConsoleServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @param Container $app
-     */
     public function register(Container $app)
     {
         $app['console'] = function() use ($app) {
 
-            $helperSet = new HelperSet([
-                'question' => new QuestionHelper(),
-            ]);
             /** @var Application $app */
             $application = new ConsoleApplication($app, $app['console.name'], $app['console.version']);
             $application->setCatchExceptions(true);
-            $application->setHelperSet($helperSet);
-            
+            $application->setHelperSet(new HelperSet([
+                'question' => new QuestionHelper(),
+            ]));
+
+            $configuration = new Configuration($app['db']);
+            $configuration->setMigrationsNamespace($app['db.migrations.namespace']);
+            if ($app['db.migrations.path']) {
+                $configuration->setMigrationsDirectory($app['db.migrations.path']);
+                $configuration->registerMigrationsFromDirectory($app['db.migrations.path']);
+            }
+            if ($app['db.migrations.name']) {
+                $configuration->setName($app['db.migrations.name']);
+            }
+            if ($app['db.migrations.table_name']) {
+                $configuration->setMigrationsTableName($app['db.migrations.table_name']);
+            }
+
+            $commands = [
+                new Command\ExecuteCommand(),
+                new Command\GenerateCommand(),
+                new Command\MigrateCommand(),
+                new Command\StatusCommand(),
+                new Command\VersionCommand(),
+            ];
+            foreach ($commands as $command) {
+                $command->setMigrationConfiguration($configuration);
+                $application->add($command);
+            }
+
+            // put custom commands initialization here
+            $application->addCommands([
+
+            ]);
+
             return $application;
         };
     }
