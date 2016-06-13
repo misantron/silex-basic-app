@@ -1,2 +1,2 @@
-# silex-basic-app
-Basic application skeleton on Silex framework
+# Silex framework skeleton application
+Basic skeleton application on Silex framework

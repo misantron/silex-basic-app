@@ -14,6 +14,10 @@ class ConfigServiceProvider implements ServiceProviderInterface
 
     public function __construct($fileName, array $replacements = [])
     {
+        if (empty($fileName)) {
+            throw new \RuntimeException('Config file does not set.');
+        }
+
         $this->fileName = new \SplFileInfo($fileName);
 
         if (!empty($replacements)) {
@@ -87,6 +91,8 @@ class ConfigServiceProvider implements ServiceProviderInterface
             throw new \RuntimeException('Invalid config file extension.');
         }
 
-        return require_once $this->fileName->getRealPath();
+        $config = require_once $this->fileName->getRealPath();
+
+        return $config;
     }
 }

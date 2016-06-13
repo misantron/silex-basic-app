@@ -37,6 +37,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
                 $configuration->setMigrationsTableName($app['db.migrations.table_name']);
             }
 
+            // doctrine migrations commands
             $commands = [
                 new Command\ExecuteCommand(),
                 new Command\GenerateCommand(),
@@ -49,7 +50,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
                 $application->add($command);
             }
 
-            // put custom commands initialization here
+            // put your custom commands into array
             $application->addCommands([
 
             ]);

@@ -1,5 +1,8 @@
 {
     "name": "misantron/silex-skeleton",
+    "description": "Simple skeleton application on Silex framework",
+    "keywords": ["framework", "silex", "skeleton"],
+    "homepage": "http://github.com/misantron/silex-basic-app",
     "type": "project",
     "license": "MIT",
     "require": {
@@ -12,7 +15,8 @@
         "doctrine/dbal": "~2.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.8"
+        "phpunit/phpunit": "~4.8",
+        "satooshi/php-coveralls": "~1.0"
     },
     "autoload": {
         "psr-4": {
