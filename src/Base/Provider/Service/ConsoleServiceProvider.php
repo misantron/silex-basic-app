@@ -17,8 +17,11 @@ class ConsoleServiceProvider implements ServiceProviderInterface
     {
         $app['console'] = function() use ($app) {
 
+            $name = isset($app['console.name']) ? $app['console.name'] : 'Application console';
+            $version = isset($app['console.version']) ? $app['console.version'] : '1.0.0';
+
             /** @var Application $app */
-            $application = new ConsoleApplication($app, $app['console.name'], $app['console.version']);
+            $application = new ConsoleApplication($app, $name, $version);
             $application->setCatchExceptions(true);
             $application->setHelperSet(new HelperSet([
                 'question' => new QuestionHelper(),

@@ -2,16 +2,27 @@
 
 namespace App\Tests;
 
+use Silex\Application;
+
 class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * Call protected class method using reflection
-     *
-     * @param string $obj
-     * @param string $name
-     * @param array $args
-     * @return mixed
-     */
+    /** @var Application */
+    protected $app;
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->app = new Application();
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->app = null;
+    }
+    
     protected function callMethod($obj, $name, $args = [])
     {
         $class = new \ReflectionClass($obj);

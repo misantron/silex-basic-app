@@ -8,23 +8,6 @@ use Silex\Application;
 
 class ConfigServiceProviderTest extends BaseTestCase
 {
-    /** @var Application */
-    protected $app;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->app = new Application();
-    }
-
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        $this->app = null;
-    }
-
     /**
      * @expectedException \RuntimeException
      */
