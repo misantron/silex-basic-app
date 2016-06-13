@@ -13,6 +13,6 @@ return [
     ],
     'db.migrations.namespace' => 'App\Migration',
     'db.migrations.name' => 'Application migrations',
-    'db.migrations.path' => __DIR__ . '/../migrations',
+    'db.migrations.path' => '%root_path%/app/migrations',
     'db.migrations.table_name' => 'migration_versions',
 ];

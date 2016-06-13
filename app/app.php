@@ -9,7 +9,8 @@ $env = getenv('APP_ENV') ?: 'dev';
 $app = new \Silex\Application();
 
 $app->register(new \App\Base\Provider\Service\ConfigServiceProvider(
-    __DIR__ . "/config/app.{$env}.php"
+    __DIR__ . "/config/app.{$env}.php",
+    ['root_path' => ROOT_PATH]
 ));
 
 umask(0);
