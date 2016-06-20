@@ -1,18 +1,31 @@
 <?php
 return [
     'debug' => false,
-    'log.level' => \Monolog\Logger::ERROR,
     'intl.default_locale' => 'en-EN',
     'date.timezone' => 'Europe/London',
-    'db.options' => [
-        'driver' => 'pdo_mysql',
-        'host' => 'localhost',
-        'user' => 'root',
-        'password' => '',
-        'db_name' => 'db_test'
+    'doctrine.config' => [
+        'db.options' => [
+            'driver' => 'pdo_mysql',
+            'host' => 'localhost',
+            'user' => 'root',
+            'password' => '',
+            'db_name' => 'db_test'
+        ]
     ],
     'db.migrations.namespace' => 'App\Migration',
     'db.migrations.name' => 'Application migrations',
-    'db.migrations.path' => '%root_path%/app/migrations',
+    'db.migrations.path' => '%ROOT_PATH%/app/migrations',
     'db.migrations.table_name' => 'migration_versions',
+    'twig.config' => [
+        'twig.path' => ['%ROOT_PATH%/app/templates'],
+        'twig.options' => [
+            'debug' => false,
+            'cache' => '%ROOT_PATH%/app/cache/twig'
+        ],
+    ],
+    'monolog.config' => [
+        'monolog.logfile' => '%ROOT_PATH%/app/logs/application.log',
+        'monolog.level' => \Monolog\Logger::ERROR,
+        'monolog.name' => 'application'
+    ],
 ];

@@ -20,11 +20,9 @@ class ConsoleServiceProviderTest extends BaseTestCase
 
         $this->app->register(new ConfigServiceProvider(
             __DIR__ . '/../../../app/config/app.dev.php',
-            ['root_path' => realpath(__DIR__ . '/../../../')]
+            ['ROOT_PATH' => realpath(__DIR__ . '/../../../')]
         ));
-        $this->app->register(new DoctrineServiceProvider(), [
-            'db.options' => $this->app['db.options']
-        ]);
+        $this->app->register(new DoctrineServiceProvider(), $this->app['doctrine.config']);
     }
 
     public function testRegister()

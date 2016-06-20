@@ -4,13 +4,13 @@ define('ROOT_PATH', __DIR__ . '/..');
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$env = getenv('APP_ENV') ?: 'dev';
-
-$app = new \Silex\Application();
+$app = new \Silex\Application([
+    'env' => getenv('APP_ENV') ?: 'dev'
+]);
 
 $app->register(new \App\Base\Provider\Service\ConfigServiceProvider(
-    __DIR__ . "/config/app.{$env}.php",
-    ['root_path' => ROOT_PATH]
+    __DIR__ . "/config/app.{$app['env']}.php",
+    ['ROOT_PATH' => ROOT_PATH]
 ));
 
 umask(0);
@@ -27,21 +27,12 @@ if ($app['debug']) {
     error_reporting(0);
 }
 
+$app->register(new \Silex\Provider\SessionServiceProvider());
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
-$app->register(new \Silex\Provider\DoctrineServiceProvider(), [
-    'db.options' => $app['db.options']
-]);
-$app->register(new \Silex\Provider\TwigServiceProvider(), [
-    'twig.path' => [ ROOT_PATH . '/app/templates'],
-    'twig.options' => [
-        'cache' => ROOT_PATH . '/app/cache/twig'
-    ],
-]);
-$app->register(new \Silex\Provider\MonologServiceProvider(), [
-    'monolog.logfile' => ROOT_PATH . '/app/logs/application.log',
-    'monolog.level' => $app['log.level'],
-    'monolog.name' => 'application'
-]);
+
+$app->register(new \Silex\Provider\DoctrineServiceProvider(), $app['doctrine.config']);
+$app->register(new \Silex\Provider\TwigServiceProvider(), $app['twig.config']);
+$app->register(new \Silex\Provider\MonologServiceProvider(), $app['monolog.config']);
 
 $servicesLoader = new \App\Base\Service\ServicesLoader($app);
 $servicesLoader->bind();

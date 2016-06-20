@@ -8,20 +8,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppController
 {
+    /** @var Request */
+    protected $request;
     /** @var \Twig_Environment */
     protected $twig;
     /** @var Logger */
     protected $logger;
 
-    public function __construct($twig, $logger)
+    public function __construct($request, $twig, $logger)
     {
+        $this->request = $request;
         $this->twig = $twig;
         $this->logger = $logger;
     }
 
-    public function indexAction(Request $request)
+    public function indexAction()
     {
-        $this->twig->render('index', []);
+        return new Response($this->twig->render('index.twig'));
     }
 
     public function errorAction(\Exception $e, $code)
@@ -29,7 +32,7 @@ class AppController
         $this->logger->addError($e->getMessage());
         $this->logger->addError($e->getTraceAsString());
 
-        return new Response($this->twig->render('error', [
+        return new Response($this->twig->render('error.twig', [
             'statusCode' => $code,
             'message' => $e->getMessage(),
             'stackTrace' => $e->getTraceAsString(),

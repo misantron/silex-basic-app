@@ -23,6 +23,7 @@ class RoutesLoader extends AbstractServiceLoader
     {
         $this->app['app.controller'] = function() {
             return new AppController(
+                $this->app['request_stack']->getCurrentRequest(),
                 $this->app['twig'],
                 $this->app['monolog']
             );
