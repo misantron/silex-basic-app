@@ -12,6 +12,9 @@ use Symfony\Component\Console\Command\Command;
  */
 class BaseCommand extends Command
 {
+    /**
+     * @return \Silex\Application
+     */
     public function getBaseApplication()
     {
         return $this->getApplication()->getSilexApplication();

@@ -33,8 +33,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
 
     protected function getPropertyValue($obj, $name)
     {
-        $class = new \ReflectionClass($obj);
-        $property = $class->getProperty($name);
+        $property = new \ReflectionProperty($obj, $name);
         $property->setAccessible(true);
         return $property->getValue($obj);
     }
