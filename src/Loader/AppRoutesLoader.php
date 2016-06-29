@@ -2,11 +2,11 @@
 
 namespace App\Loader;
 
-use App\Base\Service\AbstractServiceLoader;
+use App\Base\Service\AbstractServicesLoader;
 use App\Controller\AppController;
 use Pimple\Container;
 
-class AppRoutesLoader extends AbstractServiceLoader
+class AppRoutesLoader extends AbstractServicesLoader
 {
     public function __construct(Container $app)
     {

@@ -5,9 +5,9 @@ namespace App\Base\Service;
 use Pimple\Container;
 use Silex\Application;
 
-abstract class AbstractServiceLoader
+abstract class AbstractServicesLoader
 {
-    /** @var Container|Application */
+    /** @var Application */
     protected $app;
 
     public function __construct(Container $app)
