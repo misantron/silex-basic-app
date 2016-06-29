@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\Provider\Service;
+namespace App\Base\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -91,7 +91,7 @@ class ConfigServiceProvider implements ServiceProviderInterface
             throw new \RuntimeException('Invalid config file extension.');
         }
 
-        $config = require_once $this->fileName->getRealPath();
+        $config = require $this->fileName->getRealPath();
 
         return $config;
     }

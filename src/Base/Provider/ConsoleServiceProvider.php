@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\Provider\Service;
+namespace App\Base\Provider;
 
 use App\Base\Console\ConsoleApplication;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;

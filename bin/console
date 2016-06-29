@@ -5,7 +5,7 @@ set_time_limit(0);
 
 $app = require_once __DIR__ . '/../app/app.php';
 
-$app->register(new \App\Base\Provider\Service\ConsoleServiceProvider(), [
+$app->register(new \App\Base\Provider\ConsoleServiceProvider(), [
     'console.name' => 'Application console',
     'console.version' => '1.0.0',
 ]);

@@ -8,7 +8,7 @@ $app = new \Silex\Application([
     'env' => getenv('APP_ENV') ?: 'dev'
 ]);
 
-$app->register(new \App\Base\Provider\Service\ConfigServiceProvider(
+$app->register(new \App\Base\Provider\ConfigServiceProvider(
     __DIR__ . "/config/app.{$app['env']}.php",
     ['ROOT_PATH' => ROOT_PATH]
 ));
@@ -30,14 +30,11 @@ if ($app['debug']) {
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());
 
-$app->register(new \Silex\Provider\DoctrineServiceProvider(), $app['doctrine.config']);
+$app->register(new \Silex\Provider\DoctrineServiceProvider());
 $app->register(new \Silex\Provider\TwigServiceProvider(), $app['twig.config']);
 $app->register(new \Silex\Provider\MonologServiceProvider(), $app['monolog.config']);
 
-$servicesLoader = new \App\Base\Service\ServicesLoader($app);
-$servicesLoader->bind();
-
-$routesLoader = new \App\Base\Service\RoutesLoader($app);
+$routesLoader = new \App\Loader\AppRoutesLoader($app);
 $routesLoader->bind();
 
 return $app;

@@ -3,8 +3,8 @@
 namespace App\Tests\Base\Provider;
 
 use App\Base\Console\ConsoleApplication;
-use App\Base\Provider\Service\ConfigServiceProvider;
-use App\Base\Provider\Service\ConsoleServiceProvider;
+use App\Base\Provider\ConfigServiceProvider;
+use App\Base\Provider\ConsoleServiceProvider;
 use App\Tests\BaseTestCase;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand;
@@ -22,7 +22,7 @@ class ConsoleServiceProviderTest extends BaseTestCase
             __DIR__ . '/../../../app/config/app.dev.php',
             ['ROOT_PATH' => realpath(__DIR__ . '/../../../')]
         ));
-        $this->app->register(new DoctrineServiceProvider(), $this->app['doctrine.config']);
+        $this->app->register(new DoctrineServiceProvider());
     }
 
     public function testRegister()

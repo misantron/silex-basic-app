@@ -2,7 +2,7 @@
 
 namespace App\Tests\Base\Provider;
 
-use App\Base\Provider\Service\ConfigServiceProvider;
+use App\Base\Provider\ConfigServiceProvider;
 use App\Tests\BaseTestCase;
 use Silex\Application;
 

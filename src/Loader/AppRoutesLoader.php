@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Base\Service;
+namespace App\Loader;
 
-use App\Base\Controller\AppController;
+use App\Base\Service\AbstractServiceLoader;
+use App\Controller\AppController;
 use Pimple\Container;
 
-class RoutesLoader extends AbstractServiceLoader
+class AppRoutesLoader extends AbstractServiceLoader
 {
     public function __construct(Container $app)
     {
