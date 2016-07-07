@@ -1,11 +1,14 @@
 <?php
 
-define('ROOT_PATH', __DIR__ . '/..');
+if (!defined('ROOT_PATH')) {
+    define('ROOT_PATH', __DIR__ . '/..');
+}
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new \Silex\Application([
-    'env' => getenv('APP_ENV') ?: 'dev'
+    'env' => getenv('APP_ENV') ?: 'dev',
+    'user' => null
 ]);
 
 $app->register(new \App\Base\Provider\ConfigServiceProvider(
@@ -19,6 +22,7 @@ setlocale(LC_ALL, $app['intl.default_locale']);
 ini_set('date.timezone', $app['date.timezone']);
 date_default_timezone_set($app['date.timezone']);
 
+// @codeCoverageIgnoreStart
 if ($app['debug']) {
     ini_set('display_errors', 1);
     error_reporting(E_ALL & ~E_USER_DEPRECATED);
@@ -26,6 +30,7 @@ if ($app['debug']) {
     ini_set('display_errors', 0);
     error_reporting(0);
 }
+// @codeCoverageIgnoreEnd
 
 $app->register(new \Silex\Provider\SessionServiceProvider());
 $app->register(new \Silex\Provider\ServiceControllerServiceProvider());

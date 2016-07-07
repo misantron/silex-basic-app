@@ -16,15 +16,15 @@ class AppRoutesLoader extends AbstractServicesLoader
 
     public function bind()
     {
-        $this->app->get('/', 'app.controller:indexAction');
-        $this->app->error('app.controller:errorAction');
+        $this->app->get('/', 'app.controller:index');
+        $this->app->error('app.controller:error');
     }
 
     private function instantiateControllers()
     {
         $this->app['app.controller'] = function() {
             return new AppController(
-                $this->app['request_stack']->getCurrentRequest(),
+                $this->app['request_stack'],
                 $this->app['twig'],
                 $this->app['monolog']
             );

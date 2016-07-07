@@ -3,23 +3,35 @@
 namespace App\Tests\Controller;
 
 use Silex\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class AppControllerTest extends WebTestCase
 {
     public function createApplication()
     {
-        $this->app = require_once __DIR__ . '/../../app/app.php';
+        $this->app = require __DIR__ . '/../../app/app.php';
 
         $this->app['session.test'] = true;
 
         return $this->app;
     }
 
-    public function testIndexAction()
+    public function testIndex()
     {
         $client = $this->createClient();
         $client->request('GET', '/');
 
         $this->assertTrue($client->getResponse()->isOk());
+    }
+
+    public function testNotFound()
+    {
+        $client = $this->createClient();
+        $client->request('GET', '/not-exists');
+
+        $response = $client->getResponse();
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEmpty($response->getContent());
     }
 }

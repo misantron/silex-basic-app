@@ -3,24 +3,25 @@
 namespace App\Controller;
 
 use App\Base\Controller\BaseController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AppController extends BaseController
 {
-    public function indexAction()
+    public function index()
     {
-        return new Response($this->twig->render('app/index.twig'));
+        return new Response($this->render('index'));
     }
 
-    public function errorAction(\Exception $e, $request, $code)
+    public function error(\Exception $e, Request $request, $code)
     {
         $this->logger->addError($e->getMessage());
         $this->logger->addError($e->getTraceAsString());
 
-        return new Response($this->twig->render('app/error.twig', [
+        return new Response($this->render('error', [
             'statusCode' => $code,
             'message' => $e->getMessage(),
-            'stackTrace' => $e->getTraceAsString(),
+            'trace' => $e->getTraceAsString(),
         ]), $code);
     }
 }
