@@ -7,23 +7,43 @@ use Pimple\ServiceProviderInterface;
 
 class ConfigServiceProvider implements ServiceProviderInterface
 {
-    /** @var \SplFileInfo */
-    private $fileName;
-    /** @var array */
+    /**
+     * @var array
+     */
+    private $config;
+
+    /**
+     * @var array
+     */
     private $replacements = [];
 
-    public function __construct($fileName, array $replacements = [])
+    /**
+     * @param array $filePaths
+     * @param array $replacements
+     * @throws \RuntimeException
+     */
+    public function __construct(array $filePaths, array $replacements = [])
     {
-        if (empty($fileName)) {
-            throw new \RuntimeException('Config file does not set.');
+        $files = array_filter($filePaths, function ($file) {
+            return file_exists($file);
+        });
+        $merged = array_reduce($files, function ($carry, $path) {
+            $file = new \SplFileInfo($path);
+            if ($file->isFile() && $file->getExtension() === 'php') {
+                $config = require $file->getRealPath();
+                $carry = array_merge_recursive($carry, $config);
+            }
+            return $carry;
+        }, []);
+
+        if (empty($merged)) {
+            throw new \RuntimeException('Application config is empty');
         }
 
-        $this->fileName = new \SplFileInfo($fileName);
+        $this->config = $merged;
 
-        if (!empty($replacements)) {
-            foreach ($replacements as $key => $value) {
-                $this->replacements['%' . $key . '%'] = $value;
-            }
+        foreach ($replacements as $key => $value) {
+            $this->replacements['%' . $key . '%'] = $value;
         }
     }
 
@@ -32,26 +52,34 @@ class ConfigServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $config = $this->loadConfig();
-        foreach ($config as $name => $value) {
+        foreach ($this->config as $name => $value) {
             if (substr($name, 0, 1) === '%') {
                 $this->replacements[$name] = (string)$value;
             }
         }
-        $this->merge($app, $config);
+        $this->merge($app);
     }
 
-    private function merge(Container $app, array $config)
+    /**
+     * @param Container $app
+     */
+    private function merge(Container $app)
     {
-        foreach ($config as $name => $value) {
+        $app['config'] = new Container();
+        foreach ($this->config as $name => $value) {
             if (isset($app[$name]) && is_array($value)) {
-                $app[$name] = $this->mergeRecursively($app[$name], $value);
+                $app['config'][$name] = $this->mergeRecursively($app[$name], $value);
             } else {
-                $app[$name] = $this->doReplacements($value);
+                $app['config'][$name] = $this->doReplacements($value);
             }
         }
     }
 
+    /**
+     * @param array $currentValue
+     * @param array $newValue
+     * @return array
+     */
     private function mergeRecursively(array $currentValue, array $newValue)
     {
         foreach ($newValue as $name => $value) {
@@ -64,6 +92,10 @@ class ConfigServiceProvider implements ServiceProviderInterface
         return $currentValue;
     }
 
+    /**
+     * @param array|string $value
+     * @return array|string
+     */
     private function doReplacements($value)
     {
         if (empty($this->replacements)) {
@@ -79,20 +111,5 @@ class ConfigServiceProvider implements ServiceProviderInterface
             return strtr($value, $this->replacements);
         }
         return $value;
-    }
-
-    private function loadConfig()
-    {
-        if (!$this->fileName->isFile()) {
-            throw new \RuntimeException('Config file does not exists.');
-        }
-
-        if ($this->fileName->getExtension() !== 'php') {
-            throw new \RuntimeException('Invalid config file extension.');
-        }
-
-        $config = require $this->fileName->getRealPath();
-
-        return $config;
     }
 }

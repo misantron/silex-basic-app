@@ -2,7 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use Silex\WebTestCase;
+
+use App\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class AppControllerTest extends WebTestCase
@@ -32,6 +33,6 @@ class AppControllerTest extends WebTestCase
         $response = $client->getResponse();
 
         $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
-        $this->assertEmpty($response->getContent());
+        $this->assertEquals(Response::$statusTexts[Response::HTTP_NOT_FOUND], $response->getContent());
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Silex\Application;
 
-class BaseTestCase extends \PHPUnit_Framework_TestCase
+class BaseTestCase extends TestCase
 {
     /** @var Application */
     protected $app;

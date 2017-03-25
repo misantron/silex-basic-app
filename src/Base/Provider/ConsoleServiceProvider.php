@@ -15,7 +15,7 @@ class ConsoleServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['console'] = function() use ($app) {
+        $app['console'] = function ($app) {
 
             $name = isset($app['console.name']) ? $app['console.name'] : 'Application console';
             $version = isset($app['console.version']) ? $app['console.version'] : '1.0.0';
@@ -28,16 +28,16 @@ class ConsoleServiceProvider implements ServiceProviderInterface
             ]));
 
             $configuration = new Configuration($app['db']);
-            $configuration->setMigrationsNamespace($app['db.migrations.namespace']);
-            if ($app['db.migrations.path']) {
-                $configuration->setMigrationsDirectory($app['db.migrations.path']);
-                $configuration->registerMigrationsFromDirectory($app['db.migrations.path']);
+            $configuration->setMigrationsNamespace($app['config']['db.migrations']['namespace']);
+            if ($app['config']['db.migrations']['path']) {
+                $configuration->setMigrationsDirectory($app['config']['db.migrations']['path']);
+                $configuration->registerMigrationsFromDirectory($app['config']['db.migrations']['path']);
             }
-            if ($app['db.migrations.name']) {
-                $configuration->setName($app['db.migrations.name']);
+            if ($app['config']['db.migrations']['name']) {
+                $configuration->setName($app['config']['db.migrations']['name']);
             }
-            if ($app['db.migrations.table_name']) {
-                $configuration->setMigrationsTableName($app['db.migrations.table_name']);
+            if ($app['config']['db.migrations']['table_name']) {
+                $configuration->setMigrationsTableName($app['config']['db.migrations']['table_name']);
             }
 
             // doctrine migrations commands

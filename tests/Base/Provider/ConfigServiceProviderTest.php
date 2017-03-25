@@ -4,7 +4,6 @@ namespace App\Tests\Base\Provider;
 
 use App\Base\Provider\ConfigServiceProvider;
 use App\Tests\BaseTestCase;
-use Silex\Application;
 
 class ConfigServiceProviderTest extends BaseTestCase
 {
@@ -13,7 +12,7 @@ class ConfigServiceProviderTest extends BaseTestCase
      */
     public function testInitWithoutConfig()
     {
-        $this->app->register(new ConfigServiceProvider(''));
+        $this->app->register(new ConfigServiceProvider([]));
     }
 
     /**
@@ -21,7 +20,7 @@ class ConfigServiceProviderTest extends BaseTestCase
      */
     public function testInvalidConfigPath()
     {
-        $this->app->register(new ConfigServiceProvider(__DIR__ . '/../../resources/config_not_exists.php'));
+        $this->app->register(new ConfigServiceProvider([__DIR__ . '/../../resources/config_not_exists.php']));
     }
 
     /**
@@ -29,40 +28,35 @@ class ConfigServiceProviderTest extends BaseTestCase
      */
     public function testInvalidConfigFormat()
     {
-        $this->app->register(new ConfigServiceProvider(__DIR__ . '/../../resources/config.json'));
+        $this->app->register(new ConfigServiceProvider([__DIR__ . '/../../resources/config.json']));
     }
 
     public function testConfigLoad()
     {
-        $provider = new ConfigServiceProvider(__DIR__ . '/../../resources/config_without_replacements.php');
+        $provider = new ConfigServiceProvider([__DIR__ . '/../../resources/config_without_replacements.php']);
 
-        $fileName = $this->getPropertyValue($provider, 'fileName');
-        $this->assertInstanceOf(\SplFileInfo::class, $fileName);
+        $this->assertAttributeInternalType('array', 'config', $provider);
 
-        $replacements = $this->getPropertyValue($provider, 'replacements');
-        $this->assertInternalType('array', $replacements);
-        $this->assertEmpty($replacements);
+        $this->assertAttributeInternalType('array', 'replacements', $provider);
+        $this->assertAttributeEmpty('replacements', $provider);
 
         $this->app->register($provider);
 
-        $this->assertArrayHasKey('debug', $this->app);
-        $this->assertTrue($this->app['debug']);
-
-        $this->assertArrayHasKey('date.timezone', $this->app);
-        $this->assertEquals('Europe/London', $this->app['date.timezone']);
+        $this->assertTrue($this->app['config']['debug']);
+        $this->assertEquals('Europe/London', $this->app['config']['date.timezone']);
     }
 
     public function testConfigWithReplacements()
     {
-        $provider = new ConfigServiceProvider(__DIR__ . '/../../resources/config.php', [
+        $provider = new ConfigServiceProvider([__DIR__ . '/../../resources/config.php'], [
             'root_path' => __DIR__,
             'lifetime' => 5400,
         ]);
 
         $this->app->register($provider);
 
-        $this->assertEquals(__DIR__ . '/cache', $this->app['cache']['local']['path']);
-        $this->assertEquals(5400, $this->app['cache']['local']['lifetime']);
+        $this->assertEquals(__DIR__ . '/cache', $this->app['config']['cache']['local']['path']);
+        $this->assertEquals(5400, $this->app['config']['cache']['local']['lifetime']);
     }
 
     public function testConfigMerge()
@@ -76,14 +70,14 @@ class ConfigServiceProviderTest extends BaseTestCase
             ]
         ];
 
-        $provider = new ConfigServiceProvider(__DIR__ . '/../../resources/config_to_merge.php', [
+        $provider = new ConfigServiceProvider([__DIR__ . '/../../resources/config_to_merge.php'], [
             'root_path' => __DIR__,
             'lifetime' => 5400,
         ]);
 
         $this->app->register($provider);
 
-        $this->assertEquals('127.0.0.1', $this->app['cache']['memcache']['host']);
-        $this->assertEquals(11211, $this->app['cache']['memcache']['port']);
+        $this->assertEquals('127.0.0.1', $this->app['config']['cache']['memcache']['host']);
+        $this->assertEquals(11211, $this->app['config']['cache']['memcache']['port']);
     }
 }

@@ -10,18 +10,20 @@ return [
         'password' => '',
         'db_name' => 'db_test'
     ],
-    'db.migrations.namespace' => 'App\Migration',
-    'db.migrations.name' => 'Application migrations',
-    'db.migrations.path' => '%ROOT_PATH%/app/migrations',
-    'db.migrations.table_name' => 'migration_versions',
-    'twig.config' => [
+    'db.migrations' => [
+        'namespace' => 'App\Migration',
+        'name' => 'Application migrations',
+        'path' => '%ROOT_PATH%/app/migrations',
+        'table_name' => 'migration_versions',
+    ],
+    'twig' => [
         'twig.path' => ['%ROOT_PATH%/app/templates/'],
         'twig.options' => [
             'debug' => false,
             'cache' => '%ROOT_PATH%/app/cache/twig'
         ],
     ],
-    'monolog.config' => [
+    'monolog' => [
         'monolog.logfile' => '%ROOT_PATH%/app/logs/application.log',
         'monolog.level' => \Monolog\Logger::ERROR,
         'monolog.name' => 'application'
