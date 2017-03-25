@@ -5,10 +5,18 @@ php:
   - 7.1
   - nightly
 
-before_script:
-  - composer self-update
-  - composer install --prefer-source --no-interaction
-  - mkdir -p build/logs
+sudo: false
 
-after_script:
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+install:
+  - mkdir -p build/logs
+  - travis_retry composer self-update && composer --version
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - travis_retry composer install --prefer-dist --no-interaction
+
+after_success:
   - php vendor/bin/coveralls -v
