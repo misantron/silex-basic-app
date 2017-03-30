@@ -52,25 +52,22 @@ class ConfigServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
+        $app['config'] = new Container();
+
         foreach ($this->config as $name => $value) {
             if (substr($name, 0, 1) === '%') {
                 $this->replacements[$name] = (string)$value;
             }
         }
-        $this->merge($app);
-    }
-
-    /**
-     * @param Container $app
-     */
-    private function merge(Container $app)
-    {
-        $app['config'] = new Container();
         foreach ($this->config as $name => $value) {
-            if (isset($app[$name]) && is_array($value)) {
-                $app['config'][$name] = $this->mergeRecursively($app[$name], $value);
+            if (isset($app['config'][$name]) && is_array($value)) {
+                $app['config'][$name] = $this->mergeRecursively($app['config'][$name], $value);
             } else {
-                $app['config'][$name] = $this->doReplacements($value);
+                if (empty($this->replacements)) {
+                    $app['config'][$name] = $value;
+                } else {
+                    $app['config'][$name] = $this->doReplacements($value);
+                }
             }
         }
     }
@@ -83,10 +80,14 @@ class ConfigServiceProvider implements ServiceProviderInterface
     private function mergeRecursively(array $currentValue, array $newValue)
     {
         foreach ($newValue as $name => $value) {
-            if (is_array($value) && isset($currentValue[$name])) {
+            if (isset($currentValue[$name]) && is_array($value)) {
                 $currentValue[$name] = $this->mergeRecursively($currentValue[$name], $value);
             } else {
-                $currentValue[$name] = $this->doReplacements($value);
+                if (empty($this->replacements)) {
+                    $currentValue[$name] = $value;
+                } else {
+                    $currentValue[$name] = $this->doReplacements($value);
+                }
             }
         }
         return $currentValue;
@@ -98,16 +99,12 @@ class ConfigServiceProvider implements ServiceProviderInterface
      */
     private function doReplacements($value)
     {
-        if (empty($this->replacements)) {
-            return $value;
-        }
         if (is_array($value)) {
             foreach ($value as $k => $v) {
                 $value[$k] = $this->doReplacements($v);
             }
             return $value;
-        }
-        if (is_string($value)) {
+        } else if (is_string($value)) {
             return strtr($value, $this->replacements);
         }
         return $value;

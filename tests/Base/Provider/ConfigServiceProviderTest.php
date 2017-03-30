@@ -4,6 +4,7 @@ namespace App\Tests\Base\Provider;
 
 use App\Base\Provider\ConfigServiceProvider;
 use App\Tests\BaseTestCase;
+use Pimple\Container;
 
 class ConfigServiceProviderTest extends BaseTestCase
 {
@@ -61,7 +62,9 @@ class ConfigServiceProviderTest extends BaseTestCase
 
     public function testConfigMerge()
     {
-        $this->app['cache'] = [
+        $this->app['config'] = new Container();
+
+        $this->app['config']['cache'] = [
             'memcache' => [
                 'server' => [
                     'host' => '192.168.0.10',
