@@ -13,6 +13,7 @@ class AppControllerTest extends WebTestCase
         $this->app = require __DIR__ . '/../../app/app.php';
 
         $this->app['session.test'] = true;
+        $this->app['debug'] = false;
 
         return $this->app;
     }

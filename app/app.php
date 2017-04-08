@@ -11,8 +11,11 @@ $app = new \Silex\Application([
     'user' => null
 ]);
 
-$app->register(new \App\Base\Provider\ConfigServiceProvider(
-    [ROOT_PATH . '/app//config/app.' . $app['env'] . '.php'],
+$app->register(new \Misantron\Silex\Provider\ConfigServiceProvider(
+    new \Misantron\Silex\Provider\Adapter\PhpConfigAdapter(),
+    [
+        ROOT_PATH . '/app/config/app.' . $app['env'] . '.php'
+    ],
     ['ROOT_PATH' => ROOT_PATH]
 ));
 
