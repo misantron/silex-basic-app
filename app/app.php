@@ -42,6 +42,7 @@ $app->register(new \Silex\Provider\DoctrineServiceProvider());
 $app->register(new \Silex\Provider\TwigServiceProvider(), $app['config']['twig']);
 $app->register(new \Silex\Provider\MonologServiceProvider(), $app['config']['monolog']);
 
-$app->register(new \App\Provider\ControllersProvider());
+$app->register(new \Application\Provider\ControllersProvider());
+$app->register(new \Application\Provider\ServicesProvider());
 
 return $app;

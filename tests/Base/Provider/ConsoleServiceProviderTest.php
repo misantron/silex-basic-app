@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Tests\Base\Provider;
+namespace Application\Tests\Base\Provider;
 
-use App\Base\Console\ConsoleApplication;
-use App\Base\Provider\ConsoleServiceProvider;
-use App\Tests\BaseTestCase;
+use Application\Base\Provider\ConsoleServiceProvider;
+use Application\Tests\BaseTestCase;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand;
 use Misantron\Silex\Provider\Adapter\PhpConfigAdapter;
 use Misantron\Silex\Provider\ConfigServiceProvider;
-use Silex\Application;
 use Silex\Provider\DoctrineServiceProvider;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Helper\HelperSet;
 
 class ConsoleServiceProviderTest extends BaseTestCase
@@ -33,11 +32,10 @@ class ConsoleServiceProviderTest extends BaseTestCase
     {
         $this->app->register(new ConsoleServiceProvider());
 
-        /** @var ConsoleApplication $console */
+        /** @var Application $console */
         $console = $this->app['console'];
 
-        $this->assertInstanceOf(ConsoleApplication::class, $console);
-        $this->assertInstanceOf(Application::class, $console->getSilexApplication());
+        $this->assertInstanceOf(Application::class, $console);
         $this->assertInstanceOf(HelperSet::class, $console->getHelperSet());
 
         $this->assertEquals('Application console', $console->getName());

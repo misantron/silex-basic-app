@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Provider;
+namespace Application\Provider;
 
 
-use App\Controller\AppController;
-use Monolog\Logger;
+use Application\Controller\AppController;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Silex\Api\BootableProviderInterface;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 use Silex\ControllerCollection;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ControllersProvider
+ * @package Application\Provider
+ */
 class ControllersProvider implements ServiceProviderInterface, ControllerProviderInterface, BootableProviderInterface
 {
     /**
@@ -24,21 +25,6 @@ class ControllersProvider implements ServiceProviderInterface, ControllerProvide
     {
         /** @var ControllerCollection $controllers */
         $controllers = $app['controllers_factory'];
-
-        $app->error(function (\Exception $e, Request $request, $code) use ($app) {
-
-            /** @var Logger $logger */
-            $logger = $app['monolog'];
-            $logger->error($e->getMessage());
-
-            if ($request->isXmlHttpRequest()) {
-                return $app->json([
-                    'message' => $app['debug'] ? $e->getMessage() : Response::$statusTexts[$code]
-                ], $code);
-            } else {
-                return new Response($app['debug'] ? $e->getMessage() : Response::$statusTexts[$code], $code);
-            }
-        });
 
         $controllers->get('/', 'app.controller:index');
 

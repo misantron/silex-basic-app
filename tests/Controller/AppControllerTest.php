@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace Application\Tests\Controller;
 
 
-use App\Tests\WebTestCase;
+use Application\Tests\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class AppControllerTest extends WebTestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Base\Controller;
+namespace Application\Base\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- *
- * @package App\Base\Controller
+ * Class AbstractController
+ * @package Application\Base\Controller
  */
 abstract class AbstractController
 {
@@ -17,6 +17,7 @@ abstract class AbstractController
      * @var Request
      */
     protected $request;
+
     /**
      * @var \Twig_Environment
      */
@@ -38,7 +39,7 @@ abstract class AbstractController
      * @param array $headers
      * @return JsonResponse
      */
-    public function json(array $data = [], $status = Response::HTTP_OK, array $headers = [])
+    public function json(array $data = [], int $status = Response::HTTP_OK, array $headers = []): JsonResponse
     {
         return new JsonResponse($data, $status, $headers);
     }
@@ -48,7 +49,7 @@ abstract class AbstractController
      * @param array $params
      * @return string
      */
-    protected function render($template, array $params = [])
+    protected function render(string $template, array $params = []): string
     {
         $route = $this->request->get('_controller');
         list($controller) = explode(':', $route, 2);

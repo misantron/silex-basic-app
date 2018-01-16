@@ -5,11 +5,13 @@ set_time_limit(0);
 
 $app = require_once __DIR__ . '/../app/app.php';
 
-$app->register(new \App\Base\Provider\ConsoleServiceProvider(), [
+$app->register(new \Application\Base\Provider\ConsoleServiceProvider(), [
     'console.name' => 'Application console',
     'console.version' => '1.0.0',
 ]);
 
-/** @var \App\Base\Console\ConsoleApplication $console */
+$app->boot();
+
+/** @var \Symfony\Component\Console\Application $console */
 $console = $app['console'];
 $console->run();

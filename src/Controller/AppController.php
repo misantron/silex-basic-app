@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller;
+namespace Application\Controller;
 
-use App\Base\Controller\AbstractController;
+use Application\Base\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class AppController extends AbstractController

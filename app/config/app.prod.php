@@ -11,7 +11,7 @@ return [
         'db_name' => 'db_test'
     ],
     'db.migrations' => [
-        'namespace' => 'App\Migration',
+        'namespace' => 'Application\Migration',
         'name' => 'Application migrations',
         'path' => '%ROOT_PATH%/app/migrations',
         'table_name' => 'migration_versions',

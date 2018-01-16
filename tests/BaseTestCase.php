@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Tests;
+namespace Application\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Silex\Application;
 
-class BaseTestCase extends TestCase
+abstract class BaseTestCase extends TestCase
 {
     /** @var Application */
     protected $app;
