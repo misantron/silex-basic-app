@@ -10,12 +10,6 @@ return [
         'password' => '',
         'db_name' => 'db_test'
     ],
-    'db.migrations' => [
-        'namespace' => 'Application\Migration',
-        'name' => 'Application migrations',
-        'path' => '%ROOT_PATH%/app/migrations',
-        'table_name' => 'migration_versions',
-    ],
     'twig' => [
         'twig.path' => ['%ROOT_PATH%/app/templates/'],
         'twig.options' => [

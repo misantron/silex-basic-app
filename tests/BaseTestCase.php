@@ -7,7 +7,9 @@ use Silex\Application;
 
 abstract class BaseTestCase extends TestCase
 {
-    /** @var Application */
+    /**
+     * @var Application
+     */
     protected $app;
 
     protected function setUp()
@@ -22,14 +24,6 @@ abstract class BaseTestCase extends TestCase
         parent::tearDown();
 
         $this->app = null;
-    }
-    
-    protected function callMethod($obj, $name, $args = [])
-    {
-        $class = new \ReflectionClass($obj);
-        $method = $class->getMethod($name);
-        $method->setAccessible(true);
-        return $method->invokeArgs(null, $args);
     }
 
     protected function getPropertyValue($obj, $name)

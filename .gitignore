@@ -6,7 +6,6 @@
 !app/logs/.gitkeep
 
 /vendor/
-/build/
 
 /phpunit.xml
 /composer.lock

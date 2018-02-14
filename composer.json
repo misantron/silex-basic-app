@@ -12,17 +12,18 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": "^7.1.3",
         "silex/silex": "~2.0",
-        "symfony/twig-bridge": "~3.0",
-        "symfony/monolog-bridge": "~3.0",
-        "doctrine/migrations": "~1.3",
-        "misantron/silex-config-provider": "~1.0"
+        "misantron/silex-config-provider": "~1.0",
+        "symfony/console": "~4.0",
+        "symfony/event-dispatcher": "~3.0",
+        "symfony/twig-bridge": "~4.0",
+        "symfony/monolog-bridge": "~4.0",
+        "robmorgan/phinx": "~0.9"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
-        "satooshi/php-coveralls": "~1.0",
-        "symfony/browser-kit": "~3.0"
+        "symfony/browser-kit": "~4.0"
     },
     "autoload": {
         "psr-4": {
