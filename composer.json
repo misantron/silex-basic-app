@@ -15,6 +15,7 @@
         "php": "^7.1.3",
         "silex/silex": "~2.0",
         "misantron/silex-config-provider": "~1.0",
+        "ziadoz/silex-capsule": "~2.0",
         "symfony/console": "~4.0",
         "symfony/event-dispatcher": "~3.0",
         "symfony/twig-bridge": "~4.0",
